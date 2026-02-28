@@ -3,11 +3,11 @@ info:
   title: Goal Tracker API
   version: 0.1.0
   description: |
-    API для Goal Tracker з інтеграцією Telegram через service-token модель.
+    API for Goal Tracker with Telegram integration using a service-token model.
 
-    ## Auth режими
+    ## Auth modes
     - **Bot service auth:** `Authorization: Bearer <BOT_SERVICE_TOKEN>` + `X-Telegram-User-Id`.
-    - **Web user auth:** буде додано окремо.
+    - **Web user auth:** will be added separately.
 servers:
   - url: https://api.example.com
     description: Production (placeholder)
@@ -26,7 +26,7 @@ paths:
   /bot/users/upsert:
     post:
       tags: [Bot]
-      summary: Створити або оновити користувача за telegram_user_id
+      summary: Create or update user by telegram_user_id
       operationId: upsertBotUser
       requestBody:
         required: true
@@ -36,7 +36,7 @@ paths:
               $ref: '#/components/schemas/BotUserUpsertRequest'
       responses:
         '200':
-          description: Користувач створений або оновлений
+          description: User created or updated
           content:
             application/json:
               schema:
@@ -49,7 +49,7 @@ paths:
   /goals:
     post:
       tags: [Goals]
-      summary: Створити ціль
+      summary: Create goal
       operationId: createGoal
       requestBody:
         required: true
@@ -59,7 +59,7 @@ paths:
               $ref: '#/components/schemas/CreateGoalRequest'
       responses:
         '201':
-          description: Ціль створено
+          description: Goal created
           content:
             application/json:
               schema:
@@ -71,11 +71,11 @@ paths:
 
     get:
       tags: [Goals]
-      summary: Список цілей (коротко)
+      summary: List goals (summary)
       operationId: listGoals
       responses:
         '200':
-          description: Список цілей
+          description: Goals list
           content:
             application/json:
               schema:
@@ -94,11 +94,11 @@ paths:
       - $ref: '#/components/parameters/GoalIdPath'
     get:
       tags: [Goals]
-      summary: Отримати ціль детально
+      summary: Get goal details
       operationId: getGoalById
       responses:
         '200':
-          description: Деталі цілі
+          description: Goal details
           content:
             application/json:
               schema:
@@ -110,10 +110,10 @@ paths:
 
     patch:
       tags: [Goals]
-      summary: Оновити ціль
+      summary: Update goal
       description: |
-        Можна оновити `title`, `target_value`, `start_date`, `end_date`.
-        `unit` змінювати не можна.
+        Allowed fields: `title`, `target_value`, `start_date`, `end_date`.
+        `unit` cannot be changed.
       operationId: updateGoal
       requestBody:
         required: true
@@ -123,7 +123,7 @@ paths:
               $ref: '#/components/schemas/UpdateGoalRequest'
       responses:
         '200':
-          description: Ціль оновлено
+          description: Goal updated
           content:
             application/json:
               schema:
@@ -142,7 +142,7 @@ paths:
       - $ref: '#/components/parameters/GoalIdPath'
     post:
       tags: [Progress]
-      summary: Додати прогрес (дельта)
+      summary: Add progress (delta)
       operationId: createProgressEvent
       requestBody:
         required: true
@@ -152,7 +152,7 @@ paths:
               $ref: '#/components/schemas/CreateProgressEventRequest'
       responses:
         '201':
-          description: Подію прогресу створено
+          description: Progress event created
           content:
             application/json:
               schema:
@@ -166,7 +166,7 @@ paths:
 
     get:
       tags: [Progress]
-      summary: Список подій прогресу для цілі
+      summary: List progress events for goal
       operationId: listProgressEvents
       parameters:
         - $ref: '#/components/parameters/FromDateQuery'
@@ -174,7 +174,7 @@ paths:
         - $ref: '#/components/parameters/SortQuery'
       responses:
         '200':
-          description: Список подій прогресу
+          description: Progress events list
           content:
             application/json:
               schema:
@@ -198,7 +198,7 @@ paths:
       - $ref: '#/components/parameters/EventIdPath'
     patch:
       tags: [Progress]
-      summary: Оновити подію прогресу
+      summary: Update progress event
       operationId: updateProgressEvent
       requestBody:
         required: true
@@ -208,7 +208,7 @@ paths:
               $ref: '#/components/schemas/UpdateProgressEventRequest'
       responses:
         '200':
-          description: Подію оновлено
+          description: Event updated
           content:
             application/json:
               schema:
@@ -224,11 +224,11 @@ paths:
 
     delete:
       tags: [Progress]
-      summary: Видалити подію прогресу
+      summary: Delete progress event
       operationId: deleteProgressEvent
       responses:
         '204':
-          description: Подію видалено
+          description: Event deleted
         '401':
           $ref: '#/components/responses/Unauthorized'
         '404':
@@ -240,7 +240,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: ServiceToken
-      description: Bearer token для bot-server.
+      description: Bearer token for bot-server.
 
   parameters:
     GoalIdPath:
@@ -282,7 +282,7 @@ components:
 
   headers:
     XTelegramUserId:
-      description: Telegram user id від bot-server.
+      description: Telegram user id from bot-server.
       schema:
         type: integer
         format: int64
@@ -348,11 +348,11 @@ components:
         start_date:
           type: string
           format: date
-          description: За замовчуванням today. Не може бути в майбутньому.
+          description: Defaults to today. Cannot be in the future.
         end_date:
           type: string
           format: date
-          description: Обов'язково і строго після today.
+          description: Required and must be strictly after today.
       required: [title, unit, target_value, end_date]
 
     UpdateGoalRequest:
@@ -365,15 +365,15 @@ components:
           type: number
           format: double
           minimum: 0.01
-          description: Не можна зменшувати нижче поточного progress sum.
+          description: Cannot be decreased below current progress sum.
         start_date:
           type: string
           format: date
-          description: Не може бути в майбутньому.
+          description: Cannot be in the future.
         end_date:
           type: string
           format: date
-          description: Строго після today.
+          description: Must be strictly after today.
       additionalProperties: false
 
     GoalListItem:
@@ -506,11 +506,11 @@ components:
           type: number
           format: double
           minimum: 0.01
-          description: Дельта прогресу > 0
+          description: Progress delta > 0
         date:
           type: string
           format: date
-          description: За замовчуванням today. Не може бути в майбутньому.
+          description: Defaults to today. Cannot be in the future.
         note:
           type: string
           nullable: true
@@ -559,13 +559,13 @@ components:
 
   responses:
     BadRequest:
-      description: Некоректні вхідні дані
+      description: Invalid input data
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
     Unauthorized:
-      description: Невалідний або відсутній service token
+      description: Invalid or missing service token
       headers:
         X-Telegram-User-Id:
           $ref: '#/components/headers/XTelegramUserId'
@@ -574,13 +574,13 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
     NotFound:
-      description: Ресурс не знайдено
+      description: Resource not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
     Conflict:
-      description: Конфлікт доменних правил (напр. target_value < current_value)
+      description: Domain rule conflict (e.g., target_value < current_value)
       content:
         application/json:
           schema:
