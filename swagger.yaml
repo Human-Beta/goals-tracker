@@ -192,8 +192,9 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 
-  /progress/{eventId}:
+  /goals/{goalId}/progress/{eventId}:
     parameters:
+      - $ref: '#/components/parameters/GoalIdPath'
       - $ref: '#/components/parameters/EventIdPath'
     patch:
       tags: [Progress]
