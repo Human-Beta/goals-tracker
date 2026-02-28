@@ -9,15 +9,14 @@
 ```bash
 npm i
 cp .env.example .env
-npm run dev
+npm run dev:vercel
 ```
 
 Then open `http://localhost:3000/api/health`.
 
 ## Scripts
 
-- `npm run dev` - run API locally via Vercel runtime
-- `npm run dev:vercel` - explicit Vercel dev command
+- `npm run dev:vercel` - run API locally via Vercel runtime
 - `npm run build` - compile TypeScript to `dist/`
 - `npm run typecheck` - run TypeScript checks without emitting files
 - `npm run lint` - run ESLint
