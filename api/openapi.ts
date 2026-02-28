@@ -10,7 +10,7 @@ export default function openapi(_req: IncomingMessage, res: ServerResponse): voi
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/yaml; charset=utf-8');
     res.end(spec);
-  } catch (_error) {
+  } catch {
     res.statusCode = 500;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.end(JSON.stringify({ error: 'Failed to load OpenAPI spec' }));
